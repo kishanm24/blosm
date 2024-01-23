@@ -4,42 +4,56 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Passport\HasApiTokens as PassportHasApiTokens;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable,SoftDeletes,PassportHasApiTokens;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
     protected $fillable = [
         'name',
         'email',
-        'password',
-        'avatar',
+        'mobile_number',
+        'password','avatar','role','status','description','is_approved','status',
+        'vendor_type'
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function address()
+    {
+        return $this->hasOne(Address::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    // public function vendor()
+    // {
+    //     return $this->hasOne(Vendor::class);
+    // }
+
+    // Relationship with Vendor's Products
+    // public function vendorProducts()
+    // {
+    //     return $this->hasManyThrough(Product::class, Vendor::class);
+    // }
+
+    public function findForPassport($identifier) {
+        return $this->orWhere('email', $identifier)->orWhere('mobile_number', $identifier)->first();
+    }
+
 }
