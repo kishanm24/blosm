@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -83,5 +84,31 @@ class UserController extends Controller
         //  user()->token()->revoke();
 
         return $this->response(200,[],"Successfully logged out");
+    }
+
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|string',
+            'new_password' => 'required|string|min:6',
+            'confirm_password' => 'required|string|same:new_password',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->response(400,['errors' => $validator->errors()],"Validation Error");
+        }
+
+        $user = Auth::user();
+
+        // Check if the old password matches the user's current password
+        if (!Hash::check($request->input('old_password'), $user->password)) {
+            return $this->response(401,['error' => 'Old password does not match.'], "Old password does not match.");
+        }
+
+        // Update the user's password
+        $user->password = Hash::make($request->input('new_password'));
+        $user->save();
+
+        return $this->response(200,[],"Password changed successfully.");
     }
 }
