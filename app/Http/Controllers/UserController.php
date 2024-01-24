@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -14,7 +15,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
-            'mobile_number' => 'required|string|max:20',
+            'mobile_number' => 'required|max:20|unique:users,mobile_number',
             'avatar' => 'required|string', // You may want to validate the avatar based on your requirements
             'user_name' => 'required|string|max:255',
 
@@ -28,7 +29,7 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 400);
+            return $this->response(400,['errors' => $validator->errors()],"Validation Error");
         }
 
         // Set the default role to 'user'
@@ -40,10 +41,47 @@ class UserController extends Controller
             'mobile_number' => $request->input('mobile_number'),
             'avatar' => $request->input('avatar'),
             'user_name' => $request->input('user_name'),
+            'is_approved' => true,
+            'status' => "active",
         ]);
 
         $user->address()->create($request->input('address'));
 
-        return response()->json(['user' => $user], 201);
+        return $this->response(201,['user' => $user], "User Create Successfully");
+    }
+
+    public function userLogin(Request $request)
+    {
+        if (is_numeric($request->get('email'))) {
+            $credentials = ['mobile_number' => $request->get('email'), 'password' => $request->get('password')];
+        } elseif (filter_var($request->get('email'), FILTER_VALIDATE_EMAIL)) {
+            $credentials = ['email' => $request->get('email'), 'password' => $request->get('password')];
+        }
+
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            // Check if the user has the 'user' role and status is 'active'
+            if ($user->role === 'user' && $user->status === 'active') {
+                $token = $user->createToken('UserToken')->accessToken;
+
+                return $this->response(200,['token' => $token, 'user' => $user], "User Login Successfully");
+            } else {
+                // If role is not 'user' or status is not 'active', consider it unauthorized
+                Auth::logout();
+                return $this->response(401,[],"Account is not Active or Unauthorized");
+            }
+        } else {
+            return $this->response(401,[],"These credentials do not match our records.");
+        }
+    }
+
+    public function logout(Request $request)
+    {
+        $request->user()->token()->revoke();
+
+        //  user()->token()->revoke();
+
+        return $this->response(200,[],"Successfully logged out");
     }
 }

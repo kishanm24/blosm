@@ -21,9 +21,19 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::post('/users', [UserController::class, 'createUser']);
+    //user api
+    Route::post('/user-registration', [UserController::class, 'createUser']);
+    Route::post('/user-login', [UserController::class, 'userLogin']);
+
+    //vendor api
     Route::post('/vendor-registration', [VendorController::class, 'createVendor']);
     Route::post('/vendor-login', [VendorController::class, 'vendorLogin']);
-    
+
+
+    Route::group(['middleware' => ['auth:api']], function () {
+        Route::get('/logout',[UserController::class,'logout']);
+
+    });
+
 });
 

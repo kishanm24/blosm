@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Validator;
 
 class VendorController extends Controller
 {
-    protected function response($status = 0, $data = [], $message = "")
-    {
-        return response()->json([
-            'status' => $status,
-            'data' => $data,
-            'message' => $message
-        ],$status);
-    }
+    // protected function response($status = 0, $data = [], $message = "")
+    // {
+    //     return response()->json([
+    //         'status' => $status,
+    //         'data' => $data,
+    //         'message' => $message
+    //     ],$status);
+    // }
 
     public function createVendor(Request $request)
     {
@@ -93,11 +93,5 @@ class VendorController extends Controller
         }
     }
 
-    public function logout(Request $request)
-    {
-        $request->user()->token()->revoke();
-
-        return response()->json(['message' => 'Successfully logged out'], 200);
-    }
 
 }
