@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use EloquentFilter\Filterable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -12,14 +13,15 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable,SoftDeletes,PassportHasApiTokens;
+    use HasFactory, Notifiable,SoftDeletes,PassportHasApiTokens,Filterable;
 
     protected $fillable = [
         'name',
         'email',
         'mobile_number',
-        'password','avatar','role','status','description','is_approved','status',
-        'vendor_type'
+        'password','avatar','role','status','description','is_approved',
+        'vendor_type',
+        'is_verify'
     ];
 
     protected $hidden = [

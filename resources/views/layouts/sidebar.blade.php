@@ -352,6 +352,43 @@
                     </div>
                 </li>
 
+                {{-- <li class="nav-item">
+                    <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="sidebarPages">
+                        <i class="ri-pages-line"></i> <span>@lang('translation.pages')</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="sidebarPages">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="pages-starter" class="nav-link">@lang('translation.starter')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages-maintenance" class="nav-link">@lang('translation.maintenance')</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="pages-coming-soon" class="nav-link">@lang('translation.coming-soon')</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li> --}}
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#vendorList" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="vendorList">
+                        <i class="ri-user-2-fill"></i> <span>Users</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="vendorList">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('vendor.index') }}" class="nav-link">Vendor</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="index" class="nav-link">Customer</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li> <!-- end Dashboard Menu -->
+
             </ul>
         </div>
         <!-- Sidebar -->

@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
 
             $table->boolean('is_approved')->nullable();
             $table->string('status')->nullable();
+            $table->boolean('is_verify')->default(0);
 
             // $table->string('address')->nullable(); // Add an address field
             // $table->string('city')->nullable(); // Add a city field

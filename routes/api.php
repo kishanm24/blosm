@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\OtpController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Http\Request;
@@ -28,6 +29,13 @@ Route::prefix('v1')->group(function () {
     //vendor api
     Route::post('/vendor-registration', [VendorController::class, 'createVendor']);
     Route::post('/vendor-login', [VendorController::class, 'vendorLogin']);
+
+
+    Route::prefix('otp')->group(function () {
+        Route::post('/generate', [OtpController::class, 'generateOtp']);
+        Route::post('/verify', [OtpController::class, 'verifyOtp']);
+    });
+
 
 
     Route::group(['middleware' => ['auth:api']], function () {

@@ -39,6 +39,7 @@ export default vite.defineConfig({
                     'resources/scss/bootstrap.scss',
                     'resources/scss/icons.scss',
                     'resources/scss/app.scss',
+                    // 'resources/scss/app.rtl.scss',
                     'resources/scss/custom.scss',
                 ],
                 refresh: true

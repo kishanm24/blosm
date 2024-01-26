@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d92baefb5aedefc1ad0a215624bd19e7",
+    "content-hash": "a3d8eb636d3f09a2a0e5701a9231e762",
     "packages": [
         {
             "name": "brick/math",
@@ -1693,6 +1693,79 @@
                 "source": "https://github.com/laravel/ui/tree/v4.2.2"
             },
             "time": "2023-05-09T19:47:28+00:00"
+        },
+        {
+            "name": "laravelcollective/html",
+            "version": "v6.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelCollective/html.git",
+                "reference": "64ddfdcaeeb8d332bd98bef442bef81e39c3910b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/64ddfdcaeeb8d332bd98bef442bef81e39c3910b",
+                "reference": "64ddfdcaeeb8d332bd98bef442bef81e39c3910b",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "illuminate/routing": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "illuminate/session": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "illuminate/support": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "illuminate/view": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "php": ">=7.2.5"
+            },
+            "require-dev": {
+                "illuminate/database": "^6.0|^7.0|^8.0|^9.0|^10.0",
+                "mockery/mockery": "~1.0",
+                "phpunit/phpunit": "~8.5|^9.5.10"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Collective\\Html\\HtmlServiceProvider"
+                    ],
+                    "aliases": {
+                        "Form": "Collective\\Html\\FormFacade",
+                        "Html": "Collective\\Html\\HtmlFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Collective\\Html\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Adam Engebretson",
+                    "email": "adam@laravelcollective.com"
+                },
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                }
+            ],
+            "description": "HTML and Form Builders for the Laravel Framework",
+            "homepage": "https://laravelcollective.com",
+            "support": {
+                "issues": "https://github.com/LaravelCollective/html/issues",
+                "source": "https://github.com/LaravelCollective/html"
+            },
+            "abandoned": "spatie/laravel-html",
+            "time": "2023-04-25T02:46:11+00:00"
         },
         {
             "name": "lcobucci/clock",
@@ -6527,6 +6600,71 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/2.2.6"
             },
             "time": "2023-01-03T09:29:04+00:00"
+        },
+        {
+            "name": "tucker-eric/eloquentfilter",
+            "version": "3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Tucker-Eric/EloquentFilter.git",
+                "reference": "faaad783b7f23af7ba7e23baaa56d71af51504a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Tucker-Eric/EloquentFilter/zipball/faaad783b7f23af7ba7e23baaa56d71af51504a9",
+                "reference": "faaad783b7f23af7ba7e23baaa56d71af51504a9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "~6.0|~7.0|~8.0|~9.0|~10.0",
+                "illuminate/console": "~6.0|~7.0|~8.0|~9.0|~10.0",
+                "illuminate/database": "~6.0|~7.0|~8.0|~9.0|~10.0",
+                "illuminate/filesystem": "~6.0|~7.0|~8.0|~9.0|~10.0",
+                "illuminate/pagination": "~6.0|~7.0|~8.0|~9.0|~10.0",
+                "illuminate/support": "~6.0|~7.0|~8.0|~9.0|~10.0",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.3",
+                "phpunit/phpunit": "^8"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "EloquentFilter\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "EloquentFilter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Eric Tucker",
+                    "email": "tucker.ericm@gmail.com"
+                }
+            ],
+            "description": "An Eloquent way to filter Eloquent Models",
+            "keywords": [
+                "eloquent",
+                "filter",
+                "laravel",
+                "model",
+                "query",
+                "search"
+            ],
+            "support": {
+                "issues": "https://github.com/Tucker-Eric/EloquentFilter/issues",
+                "source": "https://github.com/Tucker-Eric/EloquentFilter/tree/3.2.0"
+            },
+            "time": "2023-02-07T18:34:53+00:00"
         },
         {
             "name": "vlucas/phpdotenv",

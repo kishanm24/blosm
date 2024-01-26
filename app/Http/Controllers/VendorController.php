@@ -10,14 +10,41 @@ use Illuminate\Support\Facades\Validator;
 
 class VendorController extends Controller
 {
-    // protected function response($status = 0, $data = [], $message = "")
-    // {
-    //     return response()->json([
-    //         'status' => $status,
-    //         'data' => $data,
-    //         'message' => $message
-    //     ],$status);
-    // }
+
+    //Admin Panel Code
+
+    public function index(Request $request)
+    {
+        try {
+
+            $vendor = User::where('role','vendor')->filter($request->all())->paginate(10);
+
+            return view('admin.vendor.index', [
+                'vendors' => $vendor
+            ]);
+
+
+            $bookings = EntryBooking::with('vehicle:vehicle_number,id', 'slot:start_time,end_time,duration,id');
+
+            if($request->api_call == true || $request->api_call == "true") {
+                $bookings = $bookings->latest()->take(5)->get();
+                return response()->json($bookings);
+            }
+
+            $bookings = $bookings->whereNotIN('status' ,[PSConstants::BookingStatus["EXIT"],PSConstants::BookingStatus["EXIT_PAYMENT_REMAINING"] ])->filter($request->all())->orderBy('id','desc')->paginate(10);
+            return view('parking_space.entry_booking.index', [
+                'bookings' => $bookings
+            ]);
+
+        } catch (Exception $e) {
+            toastr()->error('Oops! Something went wrong!');
+            return back()->with('error',"something went wrong");
+        }
+    }
+
+
+
+    //API Code for the vendor
 
     public function createVendor(Request $request)
     {
@@ -58,6 +85,7 @@ class VendorController extends Controller
             'description' => $request->input('description'),
             'is_approved' => false,
             'status' => "Inactive",
+            'vendor_type' => $request->input('vendor_type'),
         ]);
 
         // Create an address associated with the vendor
