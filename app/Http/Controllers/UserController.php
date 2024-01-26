@@ -111,4 +111,15 @@ class UserController extends Controller
 
         return $this->response(200,[],"Password changed successfully.");
     }
+
+    public function myProfile(Request $request)
+    {
+        $user = Auth::user(); // Fetch the authenticated user
+
+        if (!$user) {
+            return $this->response(401,[], 'Unauthorized');
+        }
+
+        return $this->response(200,['user' => $user], "User Data Fetch Successfully");
+    }
 }
