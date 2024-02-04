@@ -40,7 +40,8 @@ Route::prefix('v1')->group(function () {
     Route::post('forgot-password', [UserController::class, 'forgotPassword']);
 
    // Verify OTP and Reset Password
-    Route::post('verify-otp-and-reset-password', [UserController::class, 'verifyOtpAndResetPassword']);
+    Route::post('forgot-password/verify-otp', [UserController::class, 'forgotPasswordVerifyOtp']);
+    Route::post('forgot-password/reset-password', [UserController::class, 'resetPassword']);
 
     Route::group(['middleware' => ['auth:api']], function () {
 

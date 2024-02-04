@@ -45,7 +45,7 @@ class UserController extends Controller
             // 'avatar' => $request->input('avatar'),
             // 'user_name' => $request->input('user_name'),
             // 'is_approved' => true,
-            // 'status' => "active",
+            'status' => "inactive",
         ]);
 
         if(isset($request->address)){
@@ -66,12 +66,15 @@ class UserController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
+
             // Check if the user has the 'user' role and status is 'active'
-            if ($user->role === 'user' && $user->status === 'active') {
+            if ($user->role === 'user' && $user->status === 'active' && $user->is_verify == 1) {
                 $token = $user->createToken('UserToken')->accessToken;
 
-                return $this->response(200,['token' => $token, 'user' => $user], "User Login Successfully");
+                return $this->response(200,['token' => $token, 'user' => $user,'is_verify' => false], "User Login Successfully");
             } else {
+
+                return $this->response(200,['is_verify' => false],"Account is not Active or Unauthorized");
                 // If role is not 'user' or status is not 'active', consider it unauthorized
                 Auth::logout();
                 return $this->response(401,[],"Account is not Active or Unauthorized");
@@ -130,9 +133,13 @@ class UserController extends Controller
 
     public function forgotPassword(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
         ]);
+
+        if ($validator->fails()) {
+            return $this->response(400,['errors' => $validator->errors()],"Validation Error");
+        }
 
         $user = User::where('email', $request->email)->first();
 
@@ -147,17 +154,21 @@ class UserController extends Controller
         // Send OTP to the user's email (you may use Laravel's Mail facade)
         // Example: Mail::to($request->email)->send(new ForgotPasswordMail($otp));
 
-        return response()->json(['message' => 'OTP sent to your email'], 200);
+        return $this->response(200,[], 'OTP sent to your email');
     }
 
-    public function verifyOtpAndResetPassword(Request $request)
+    public function forgotPasswordVerifyOtp(Request $request)
     {
-        $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
-            'otp' => 'required|string|min:4',
-            'new_password' => 'required|string|min:6',
-            'confirm_password' => 'required|string|same:new_password',
+            'otp' => 'required|integer|min:4',
+            // 'new_password' => 'required|string|min:6',
+            // 'confirm_password' => 'required|string|same:new_password',
         ]);
+
+        if ($validator->fails()) {
+            return $this->response(400,['errors' => $validator->errors()],"Validation Error");
+        }
 
         $resetRecord = DB::table('password_resets')
             ->where('email', $request->email)
@@ -165,26 +176,66 @@ class UserController extends Controller
             ->first();
 
 
-        if($request->otp != 1234){
-            if (!$resetRecord) {
-                return response()->json(['message' => 'Invalid OTP'], 400);
+
+            if ($request->otp != 1234 && !$resetRecord) {
+                return $this->response(400,[], 'Invalid OTP');
             }
 
             // Check if the OTP is still valid (e.g., within 15 minutes)
             $expirationTime = now()->subMinutes(15);
-            if ($resetRecord->created_at < $expirationTime) {
-                return response()->json(['message' => 'OTP has expired'], 400);
+            if ($request->otp != 1234 && $resetRecord->created_at < $expirationTime) {
+                return $this->response(400,[], 'OTP has expired');
             }
-        }
+
 
         // Update user's password
-        DB::table('users')
-            ->where('email', $request->email)
-            ->update(['password' => Hash::make($request->new_password)]);
+        // DB::table('users')
+        //     ->where('email', $request->email)
+        //     ->update(['password' => Hash::make($request->new_password)]);
 
         // Delete the OTP record
-        DB::table('password_resets')->where('email', $request->email)->delete();
+        DB::table('password_resets')->where('email', $request->email)->update(['is_verified' => true]);
 
-        return response()->json(['message' => 'Password reset successfully'], 200);
+        return $this->response(200,[],'OTP Verify successfully');
+    }
+
+    public function resetPassword(Request $request)
+    {
+
+        // Validate the request
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email|exists:users,email',
+            'new_password' => 'required|string|min:6',
+            'confirm_password' => 'required|string|same:new_password',
+        ]);
+
+        if ($validator->fails()) {
+            return $this->response(400,['errors' => $validator->errors()],"Validation Error");
+        }
+
+        $resetRecord = DB::table('password_resets')
+            ->where('email', $request->email)
+            ->where('is_verified', true)
+            ->first();
+
+        if (!$resetRecord) {
+            return $this->response(400,[],'Email is not Verify');
+        }
+
+        // Check if the OTP is still valid (e.g., within 15 minutes)
+        // $expirationTime = now()->subMinutes(15);
+        // if ($resetRecord->created_at < $expirationTime) {
+        //     return $this->response(['message' => 'OTP has expired'], 400);
+        // }
+
+        // Reset the user's password
+        $user = User::where('email', $request->input('email'))->first();
+        $user->update(['password' => Hash::make($request->new_password)]);
+
+        DB::table('password_resets')->where('email', $request->email)->update([
+            'is_verified' => false
+        ]);
+
+        return $this->response(200,[], 'Password reset successful');
     }
 }

@@ -91,11 +91,12 @@ class OtpController extends Controller
             'status' => 'active'
         ]);
 
+        $token = $user->createToken('UserToken')->accessToken;
 
         // Clear OTP log after successful verification
         // $otpLog->delete();
 
-        return $this->response(200,[],"OTP verified successfully.");
+        return $this->response(200,['token' => $token, 'user' => $user],"OTP verified successfully.");
     }
 
 }
