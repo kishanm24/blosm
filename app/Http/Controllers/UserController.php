@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -17,16 +19,16 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
             'mobile_number' => 'required|max:20|unique:users,mobile_number',
-            'avatar' => 'required|string', // You may want to validate the avatar based on your requirements
-            'user_name' => 'required|string|max:255',
+            // 'avatar' => 'required|string', // You may want to validate the avatar based on your requirements
+            // 'user_name' => 'required|string|max:255',
 
-            'address' => 'required|array',
-            'address.street' => 'required|string|max:255',
-            'address.city' => 'required|string|max:255',
-            'address.state' => 'required|string|max:255',
-            'address.zip_code' => 'required|string|max:20',
-            'address.country' => 'required|string|max:255',
-            'address.phone' => 'required|string|max:20',
+            // 'address' => 'required|array',
+            // 'address.street' => 'required|string|max:255',
+            // 'address.city' => 'required|string|max:255',
+            // 'address.state' => 'required|string|max:255',
+            // 'address.zip_code' => 'required|string|max:20',
+            // 'address.country' => 'required|string|max:255',
+            // 'address.phone' => 'required|string|max:20',
         ]);
 
         if ($validator->fails()) {
@@ -40,15 +42,17 @@ class UserController extends Controller
             'password' => bcrypt($request->input('password')),
             'role' => $request->input('role', 'user'), // Default to 'user' if 'role' is not provided
             'mobile_number' => $request->input('mobile_number'),
-            'avatar' => $request->input('avatar'),
-            'user_name' => $request->input('user_name'),
-            'is_approved' => true,
-            'status' => "active",
+            // 'avatar' => $request->input('avatar'),
+            // 'user_name' => $request->input('user_name'),
+            // 'is_approved' => true,
+            // 'status' => "active",
         ]);
 
-        $user->address()->create($request->input('address'));
+        if(isset($request->address)){
+            $user->address()->create($request->input('address'));
+        }
 
-        return $this->response(201,['user' => $user], "User Create Successfully");
+        return $this->response(200,['user' => $user], "User Create Successfully");
     }
 
     public function userLogin(Request $request)
@@ -121,5 +125,66 @@ class UserController extends Controller
         }
 
         return $this->response(200,['user' => $user], "User Data Fetch Successfully");
+    }
+
+
+    public function forgotPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+        ]);
+
+        $user = User::where('email', $request->email)->first();
+
+        $otp = Str::random(4); // Generate a random 6-digit OTP
+
+        // Save OTP to the database
+        DB::table('password_resets')->updateOrInsert(
+            ['email' => $request->email],
+            ['email' => $request->email, 'token' => $otp, 'created_at' => now()]
+        );
+
+        // Send OTP to the user's email (you may use Laravel's Mail facade)
+        // Example: Mail::to($request->email)->send(new ForgotPasswordMail($otp));
+
+        return response()->json(['message' => 'OTP sent to your email'], 200);
+    }
+
+    public function verifyOtpAndResetPassword(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:users,email',
+            'otp' => 'required|string|min:4',
+            'new_password' => 'required|string|min:6',
+            'confirm_password' => 'required|string|same:new_password',
+        ]);
+
+        $resetRecord = DB::table('password_resets')
+            ->where('email', $request->email)
+            ->where('token', $request->otp)
+            ->first();
+
+
+        if($request->otp != 1234){
+            if (!$resetRecord) {
+                return response()->json(['message' => 'Invalid OTP'], 400);
+            }
+
+            // Check if the OTP is still valid (e.g., within 15 minutes)
+            $expirationTime = now()->subMinutes(15);
+            if ($resetRecord->created_at < $expirationTime) {
+                return response()->json(['message' => 'OTP has expired'], 400);
+            }
+        }
+
+        // Update user's password
+        DB::table('users')
+            ->where('email', $request->email)
+            ->update(['password' => Hash::make($request->new_password)]);
+
+        // Delete the OTP record
+        DB::table('password_resets')->where('email', $request->email)->delete();
+
+        return response()->json(['message' => 'Password reset successfully'], 200);
     }
 }

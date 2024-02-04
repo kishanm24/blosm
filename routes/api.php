@@ -36,13 +36,16 @@ Route::prefix('v1')->group(function () {
         Route::post('/verify', [OtpController::class, 'verifyOtp']);
     });
 
+    // Forgot Password
+    Route::post('forgot-password', [UserController::class, 'forgotPassword']);
 
+   // Verify OTP and Reset Password
+    Route::post('verify-otp-and-reset-password', [UserController::class, 'verifyOtpAndResetPassword']);
 
     Route::group(['middleware' => ['auth:api']], function () {
 
         //user profile
         Route::get('my-profile', [UserController::class, 'myProfile']);
-
 
         Route::get('/logout',[UserController::class,'logout']);
         Route::post('/change-password', [UserController::class, 'changePassword']);
