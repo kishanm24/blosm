@@ -74,7 +74,7 @@ class UserController extends Controller
                 return $this->response(200,['token' => $token, 'user' => $user,'is_verify' => true], "User Login Successfully");
             } else {
 
-                return $this->response(200,['is_verify' => false],"Account is not Active or Unauthorized");
+                return $this->response(200,['is_verify' => false,'user' => $user],"Account is not Active or Unauthorized");
                 // If role is not 'user' or status is not 'active', consider it unauthorized
                 Auth::logout();
                 return $this->response(401,[],"Account is not Active or Unauthorized");
