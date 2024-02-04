@@ -68,10 +68,10 @@ class UserController extends Controller
 
 
             // Check if the user has the 'user' role and status is 'active'
-            if ($user->role === 'user' && $user->status === 'active' && $user->is_verify == 1) {
+            if ($user->role === 'user' && $user->status === 'active' && $user->is_verify == true) {
                 $token = $user->createToken('UserToken')->accessToken;
 
-                return $this->response(200,['token' => $token, 'user' => $user,'is_verify' => false], "User Login Successfully");
+                return $this->response(200,['token' => $token, 'user' => $user,'is_verify' => true], "User Login Successfully");
             } else {
 
                 return $this->response(200,['is_verify' => false],"Account is not Active or Unauthorized");
@@ -206,7 +206,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'email' => 'required|email|exists:users,email',
             'new_password' => 'required|string|min:6',
-            'confirm_password' => 'required|string|same:new_password',
+            // 'confirm_password' => 'required|string|same:new_password',
         ]);
 
         if ($validator->fails()) {
