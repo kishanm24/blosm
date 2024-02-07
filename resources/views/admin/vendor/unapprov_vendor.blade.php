@@ -3,7 +3,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Admin @endslot
-@slot('title') Unapprov Vendor Listing @endslot
+@slot('title') Pending Approval Vendors @endslot
 @endcomponent
 
 {!! Form::open([
@@ -16,7 +16,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex align-items-center border-0">
-                <h5 class="card-title mb-0 flex-grow-1">New Vendor List</h5>
+                <h5 class="card-title mb-0 flex-grow-1">Pending Approval Vendor List</h5>
                 {{-- <div class="flex-shrink-0">
                     <a href="{{ route('vendor.create') }}" class="btn btn-success">
                         <i class="ri-add-line align-bottom me-1"></i>Add New Vendor

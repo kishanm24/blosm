@@ -5,19 +5,19 @@
         <!-- Dark Logo-->
         <a href="index" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="{{ URL::asset('images/logo.jpeg') }}" alt="" height="22">
+                <img src="{{ URL::asset('images/final-light.png') }}" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="{{ URL::asset('images/logo.jpeg') }}" alt="" height="17">
+                <img src="{{ URL::asset('images/final-light.png') }}" alt="" height="17">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="index" class="logo logo-light">
             <span class="logo-sm">
-                <img src="{{ URL::asset('images/logo.jpeg') }}" alt="" height="22">
+                <img src="{{ URL::asset('images/final-light.png') }}" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="{{ URL::asset('images/logo.jpeg') }}" alt="" height="50">
+                <img src="{{ URL::asset('images/final-light.png') }}" alt="" height="50">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -84,20 +84,25 @@
             <ul class="navbar-nav" id="navbar-nav">
                 <li class="menu-title"><span>@lang('translation.menu')</span></li>
                 <li class="nav-item">
-                    <a class="nav-link menu-link" href="#sidebarDashboards" data-bs-toggle="collapse" role="button"
+                    <a class="nav-link menu-link" href="index" >
+                        <i class="ri-dashboard-2-line"></i> <span>@lang('translation.dashboards')</span>
+                    </a>
+                </li>
+                {{-- <li class="nav-item">
+                    <a class="nav-link menu-link" href="index" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarDashboards">
                         <i class="ri-dashboard-2-line"></i> <span>@lang('translation.dashboards')</span>
                     </a>
-                    <div class="collapse menu-dropdown" id="sidebarDashboards">
+                    {{-- <div class="collapse menu-dropdown" id="sidebarDashboards">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
                                 <a href="index" class="nav-link">@lang('translation.ecommerce')</a>
                             </li>
                         </ul>
                     </div>
-                </li> <!-- end Dashboard Menu -->
+                </li> --}}
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarLayouts" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarLayouts">
                         <i class="ri-layout-3-line"></i> <span>@lang('translation.layouts')</span><span
@@ -120,12 +125,12 @@
                             </li>
                         </ul>
                     </div>
-                </li> <!-- end Dashboard Menu -->
+                </li> <!-- end Dashboard Menu --> --}}
 
 
                 <li class="menu-title"><i class="ri-more-fill"></i> <span>@lang('translation.pages')</span></li>
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarAuth" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="sidebarAuth">
                         <i class="ri-account-circle-line"></i> <span>@lang('translation.authentication')</span>
@@ -307,9 +312,9 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarMultilevel" data-bs-toggle="collapse"
                         role="button" aria-expanded="false" aria-controls="sidebarMultilevel">
                         <i class="ri-share-line"></i> <span>@lang('translation.multi-level')</span>
@@ -350,7 +355,7 @@
                             </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
 
                 {{-- <li class="nav-item">
                     <a class="nav-link menu-link" href="#sidebarPages" data-bs-toggle="collapse" role="button"
@@ -380,7 +385,7 @@
                     <div class="collapse menu-dropdown" id="vendorList">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('unapprove-vendor') }}" class="nav-link">Unapprove Vendor</a>
+                                <a href="{{ route('unapprove-vendor') }}" class="nav-link">Pending Approval</a>
                             </li>
 
                             <li class="nav-item">
