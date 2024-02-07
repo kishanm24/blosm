@@ -238,4 +238,33 @@ class UserController extends Controller
 
         return $this->response(200,[], 'Password reset successful');
     }
+
+    public function index(Request $request)
+    {
+        try {
+
+            $customer = User::where('role','user')->filter($request->all())->paginate(10);
+
+            return view('admin.customer.index', [
+                'customers' => $customer
+            ]);
+
+
+            // $bookings = EntryBooking::with('vehicle:vehicle_number,id', 'slot:start_time,end_time,duration,id');
+
+            // if($request->api_call == true || $request->api_call == "true") {
+            //     $bookings = $bookings->latest()->take(5)->get();
+            //     return response()->json($bookings);
+            // }
+
+            // $bookings = $bookings->whereNotIN('status' ,[PSConstants::BookingStatus["EXIT"],PSConstants::BookingStatus["EXIT_PAYMENT_REMAINING"] ])->filter($request->all())->orderBy('id','desc')->paginate(10);
+            // return view('parking_space.entry_booking.index', [
+            //     'bookings' => $bookings
+            // ]);
+
+        } catch (Exception $e) {
+            toastr()->error('Oops! Something went wrong!');
+            return back()->with('error',"something went wrong");
+        }
+    }
 }

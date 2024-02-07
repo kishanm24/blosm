@@ -3,11 +3,11 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Admin @endslot
-@slot('title') Vendor Listing @endslot
+@slot('title') Customer Listing @endslot
 @endcomponent
 
 {!! Form::open([
-    'route' => 'vendor.index',
+    'route' => 'customer.index',
     'method' => 'get',
     'class' => 'needs-validation',
     'autocomplete' => 'off'
@@ -16,17 +16,17 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex align-items-center border-0">
-                <h5 class="card-title mb-0 flex-grow-1">Vendor List</h5>
+                <h5 class="card-title mb-0 flex-grow-1">Customer List</h5>
                 {{-- <div class="flex-shrink-0">
-                    <a href="{{ route('vendor.create') }}" class="btn btn-success">
-                        <i class="ri-add-line align-bottom me-1"></i>Add New Vendor
+                    <a href="{{ route('customer.create') }}" class="btn btn-success">
+                        <i class="ri-add-line align-bottom me-1"></i>Add New Customer
                     </a>
                 </div> --}}
             </div>
             <div class="card-body border border-dashed border-end-0 border-start-0">
                 <div class="row g-2">
                     {!! Form::open([
-                        'route' => 'vendor.index',
+                        'route' => 'customer.index',
                         'method' => 'get',
                         'class' => 'needs-validation',
                         'autocomplete' => 'off'
@@ -34,7 +34,7 @@
 
                     <div class="col-xl-4 col-md-6">
                         <div class="search-box">
-                            {!! Form::text('search', request()->search, ['class' => 'form-control search', "placeholder"=>"Search by Vendor Name..."]) !!}
+                            {!! Form::text('search', request()->search, ['class' => 'form-control search', "placeholder"=>"Search by Customer Name..."]) !!}
                             <i class="ri-search-line search-icon"></i>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive table-card">
-                    <table class="table align-middle table-nowrap" id="vendorTable">
+                    <table class="table align-middle table-nowrap" id="customerTable">
                         <thead class="table-light text-muted">
                             <tr>
                                 <th class="sort" scope="col">Sr. no</th>
@@ -75,33 +75,32 @@
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                            @foreach ($vendors as $vendor)
+                            @foreach ($customers as $customer)
 
-                            {{-- {{  dd($vendor); }} --}}
+                            {{-- {{  dd($customer); }} --}}
                                 <tr>
                                     <td scope="col">{{ request('page') !== null ? (request('page') - 1) * 10 + $loop->iteration  :  $loop->iteration}}</td>
-                                    <td>{{ $vendor->name }}</td>
-                                    <td>{{ $vendor->email }}</td>
-                                    <td>{{ $vendor->mobile_number }}</td>
+                                    <td>{{ $customer->name }}</td>
+                                    <td>{{ $customer->email }}</td>
+                                    <td>{{ $customer->mobile_number }}</td>
                                     <td class="status">
-                                        <span class='badge text-uppercase {{ ($vendor->status === 'active') ? 'bg-success' : 'bg-danger' }}'>
-                                            {{ $vendor->status }}
+                                        <span class='badge text-uppercase {{ ($customer->status === 'active') ? 'bg-success' : 'bg-danger' }}'>
+                                            {{ $customer->status }}
                                         </span>
                                     </td>
                                     <td>
                                         <div class="hstack gap-2">
                                             {{-- Remove button --}}
-                                            {{-- {{ Form::open(['url' => 'vendor/' . $vendor->id, 'method' => 'DELETE']) }}
+                                            {{-- {{ Form::open(['url' => 'customer/' . $customer->id, 'method' => 'DELETE']) }}
                                                 {!! Form::button('<i class="ri-delete-bin-5-fill align-bottom"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-soft-danger remove-list']) !!}
                                             {{ Form::close() }} --}}
 
                                             {{-- Edit button --}}
-                                            {{-- {{ route('vendor.edit', ['vendor' => $vendor->id]) }} --}}
-                                            <a class="btn btn-sm btn-soft-danger edit-list" href="#">
-                                                <i class="ri-close-fill align-bottom"></i>
-                                            </a>
+                                            {{-- <a class="btn btn-sm btn-soft-info edit-list" href="{{ route('customer.edit', ['customer' => $customer->id]) }}">
+                                                <i class="ri-check-double-fill align-bottom"></i>
+                                            </a> --}}
 
-                                            <button class="btn btn-sm btn-soft-info edit-list" type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#VendorApprove" data-vendor-name="{{ $vendor->name }}" data-vendor-email="{{ $vendor->email }}" data-vendor-mobile="{{ $vendor->mobile_number }}" data-vendor-type="{{ $vendor->vendor_type }}">
+                                            <button class="btn btn-sm btn-soft-info edit-list" type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#VendorApprove" data-customer-name="{{ $customer->name }}" data-customer-email="{{ $customer->email }}" data-customer-mobile="{{ $customer->mobile_number }}" data-customer-type="{{ $customer->customer_type }}">
                                                 <i class="ri-eye-fill align-bottom"></i>
                                             </button>
 
@@ -117,11 +116,11 @@
                         <div class="text-center">
                             <lord-icon src="https://cdn.lordicon.com/msoeawqm.json" trigger="loop" colors="primary:#405189,secondary:#0ab39c" style="width:75px;height:75px"></lord-icon>
                             <h5 class="mt-2">Sorry! No Result Found</h5>
-                            <p class="text-muted mb-0">We've searched more than 150+ vendors. We did not find any vendors for your search.</p>
+                            <p class="text-muted mb-0">We've searched more than 150+ customers. We did not find any customers for your search.</p>
                         </div>
                     </div>
                 </div>
-                {!! $vendors->withQueryString()->links('layouts.paginate') !!}
+                {!! $customers->withQueryString()->links('layouts.paginate') !!}
             </div>
         </div>
         <!--end card-->
@@ -134,33 +133,33 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="myModalLabel">Vendor Information</h5>
+                <h5 class="modal-title" id="myModalLabel">Customer Information</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
             </div>
             <div class="modal-body">
                 {{-- <h5 class="fs-15">
-                    Vendor Information
+                    Customer Information
                 </h5> --}}
 
                 <form>
                     <div class="mb-3">
-                        <label for="vendor-name" class="col-form-label">Name:</label>
-                        <input type="text" class="form-control" id="vendor-name" disabled>
+                        <label for="customer-name" class="col-form-label">Name:</label>
+                        <input type="text" class="form-control" id="customer-name" disabled>
                     </div>
                     <div class="mb-3">
-                        <label for="vendor-number" class="col-form-label">Mobile Number</label>
-                        <input type="text" class="form-control" id="vendor-number" disabled>
+                        <label for="customer-number" class="col-form-label">Mobile Number</label>
+                        <input type="text" class="form-control" id="customer-number" disabled>
                     </div>
 
                     <div class="mb-3">
-                        <label for="vendor-email" class="col-form-label">Email</label>
-                        <input type="text" class="form-control" id="vendor-email" disabled>
+                        <label for="customer-email" class="col-form-label">Email</label>
+                        <input type="text" class="form-control" id="customer-email" disabled>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="vendor-type" class="col-form-label">Vendor Type</label>
-                        <input type="text" class="form-control" id="vendor-type" disabled>
-                    </div>
+                    {{-- <div class="mb-3">
+                        <label for="customer-type" class="col-form-label">Customer Type</label>
+                        <input type="text" class="form-control" id="customer-type" disabled>
+                    </div> --}}
                 </form>
             </div>
             <div class="modal-footer">
@@ -179,45 +178,45 @@
 <script type="text/javascript">
      $('#activateVendorModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var vendorId = button.data('vendor-id');
-        var vendorName = button.data('vendor-name');
-        var vendorEmail = button.data('vendor-email');
-        var vendorMobile = button.data('vendor-mobile');
+        var customerId = button.data('customer-id');
+        var customerName = button.data('customer-name');
+        var customerEmail = button.data('customer-email');
+        var customerMobile = button.data('customer-mobile');
 
-        // Update modal content with vendor details
-        $('#vendorName').text(vendorName);
-        $('#vendorEmail').text(vendorEmail);
-        $('#vendorMobile').text(vendorMobile);
+        // Update modal content with customer details
+        $('#customerName').text(customerName);
+        $('#customerEmail').text(customerEmail);
+        $('#customerMobile').text(customerMobile);
 
-        // You can also store vendorId to use it when submitting the form
+        // You can also store customerId to use it when submitting the form
     });
 
     $('#VendorApprove').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
-        var vendorId = button.data('vendor-id');
-        var vendorName = button.data('vendor-name');
-        var vendorEmail = button.data('vendor-email');
-        var vendorMobile = button.data('vendor-mobile');
-        var vendorType = button.data('vendor-type');
+        var customerId = button.data('customer-id');
+        var customerName = button.data('customer-name');
+        var customerEmail = button.data('customer-email');
+        var customerMobile = button.data('customer-mobile');
+        var customerType = button.data('customer-type');
 
-        // alert(vendorType);
+        // alert(customerType);
 
-        // Update modal content with vendor details
-        $('#vendor-name').val(vendorName);
-        $('#vendor-email').val(vendorEmail);
-        $('#vendor-number').val(vendorMobile);
-        $('#vendor-type').val(vendorType);
+        // Update modal content with customer details
+        $('#customer-name').val(customerName);
+        $('#customer-email').val(customerEmail);
+        $('#customer-number').val(customerMobile);
+        $('#customer-type').val(customerType);
 
 
         var button = $(event.relatedTarget);
-        var vendorName = button.data('vendor-name');
-        var vendorEmail = button.data('vendor-email');
+        var customerName = button.data('customer-name');
+        var customerEmail = button.data('customer-email');
 
         var modal = $(this);
-        modal.find('#vendorName').text('Vendor Name: ' + vendorName);
-        modal.find('#vendorEmail').text('Vendor Email: ' + vendorEmail);
+        modal.find('#customerName').text('Customer Name: ' + customerName);
+        modal.find('#customerEmail').text('Customer Email: ' + customerEmail);
 
-        // You can also store vendorId to use it when submitting the form
+        // You can also store customerId to use it when submitting the form
     });
 
 

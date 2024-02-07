@@ -3,7 +3,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Admin @endslot
-@slot('title') Vendor Listing @endslot
+@slot('title') Unapprov Vendor Listing @endslot
 @endcomponent
 
 {!! Form::open([
@@ -16,7 +16,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex align-items-center border-0">
-                <h5 class="card-title mb-0 flex-grow-1">Vendor List</h5>
+                <h5 class="card-title mb-0 flex-grow-1">New Vendor List</h5>
                 {{-- <div class="flex-shrink-0">
                     <a href="{{ route('vendor.create') }}" class="btn btn-success">
                         <i class="ri-add-line align-bottom me-1"></i>Add New Vendor
@@ -26,7 +26,7 @@
             <div class="card-body border border-dashed border-end-0 border-start-0">
                 <div class="row g-2">
                     {!! Form::open([
-                        'route' => 'vendor.index',
+                        'route' => 'unapprove-vendor',
                         'method' => 'get',
                         'class' => 'needs-validation',
                         'autocomplete' => 'off'
@@ -96,9 +96,8 @@
                                             {{ Form::close() }} --}}
 
                                             {{-- Edit button --}}
-                                            {{-- {{ route('vendor.edit', ['vendor' => $vendor->id]) }} --}}
-                                            <a class="btn btn-sm btn-soft-danger edit-list" href="#">
-                                                <i class="ri-close-fill align-bottom"></i>
+                                            <a class="btn btn-sm btn-soft-info edit-list" href="#">
+                                                <i class="ri-check-double-fill align-bottom"></i>
                                             </a>
 
                                             <button class="btn btn-sm btn-soft-info edit-list" type="button" class="btn btn-primary " data-bs-toggle="modal" data-bs-target="#VendorApprove" data-vendor-name="{{ $vendor->name }}" data-vendor-email="{{ $vendor->email }}" data-vendor-mobile="{{ $vendor->mobile_number }}" data-vendor-type="{{ $vendor->vendor_type }}">

@@ -5,19 +5,19 @@
         <!-- Dark Logo-->
         <a href="index" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="<?php echo e(URL::asset('build/images/logo-sm.png')); ?>" alt="" height="22">
+                <img src="<?php echo e(URL::asset('images/logo.jpeg')); ?>" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="<?php echo e(URL::asset('build/images/logo-dark.png')); ?>" alt="" height="17">
+                <img src="<?php echo e(URL::asset('images/logo.jpeg')); ?>" alt="" height="17">
             </span>
         </a>
         <!-- Light Logo-->
         <a href="index" class="logo logo-light">
             <span class="logo-sm">
-                <img src="<?php echo e(URL::asset('build/images/logo-sm.png')); ?>" alt="" height="22">
+                <img src="<?php echo e(URL::asset('images/logo.jpeg')); ?>" alt="" height="22">
             </span>
             <span class="logo-lg">
-                <img src="<?php echo e(URL::asset('build/images/logo-light.png')); ?>" alt="" height="17">
+                <img src="<?php echo e(URL::asset('images/logo.jpeg')); ?>" alt="" height="50">
             </span>
         </a>
         <button type="button" class="btn btn-sm p-0 fs-20 header-item float-end btn-vertical-sm-hover"
@@ -347,6 +347,42 @@
                                         </li>
                                     </ul>
                                 </div>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#vendorList" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="vendorList">
+                        <i class="ri-user-2-fill"></i> <span>Vendor</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="vendorList">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="<?php echo e(route('unapprove-vendor')); ?>" class="nav-link">Unapprove Vendor</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="<?php echo e(route('vendor.index')); ?>" class="nav-link">Vendor List</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#customerList" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="customerList">
+                        <i class="ri-user-2-fill"></i> <span>Customer</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="customerList">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="<?php echo e(route('customer.index')); ?>" class="nav-link">Customer List</a>
                             </li>
                         </ul>
                     </div>

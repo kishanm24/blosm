@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,11 @@ Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class
 
 
 Route::resource('vendor', VendorController::class);
+Route::get('unapprove-vendor', [VendorController::class,'unApproveVendor'])->name('unapprove-vendor');
+
+Route::resource('customer', UserController::class);
+
+
 
 
 

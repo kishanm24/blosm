@@ -121,5 +121,34 @@ class VendorController extends Controller
         }
     }
 
+    public function unApproveVendor(Request $request)
+    {
+        try {
+
+            $vendor = User::where('role','vendor')->where('is_approved',false)->where('status','inactive')->filter($request->all())->paginate(10);
+
+            return view('admin.vendor.unapprov_vendor', [
+                'vendors' => $vendor
+            ]);
+
+
+            $bookings = EntryBooking::with('vehicle:vehicle_number,id', 'slot:start_time,end_time,duration,id');
+
+            if($request->api_call == true || $request->api_call == "true") {
+                $bookings = $bookings->latest()->take(5)->get();
+                return response()->json($bookings);
+            }
+
+            $bookings = $bookings->whereNotIN('status' ,[PSConstants::BookingStatus["EXIT"],PSConstants::BookingStatus["EXIT_PAYMENT_REMAINING"] ])->filter($request->all())->orderBy('id','desc')->paginate(10);
+            return view('parking_space.entry_booking.index', [
+                'bookings' => $bookings
+            ]);
+
+        } catch (Exception $e) {
+            toastr()->error('Oops! Something went wrong!');
+            return back()->with('error',"something went wrong");
+        }
+    }
+
 
 }

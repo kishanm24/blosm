@@ -375,19 +375,36 @@
                 <li class="nav-item">
                     <a class="nav-link menu-link" href="#vendorList" data-bs-toggle="collapse" role="button"
                         aria-expanded="false" aria-controls="vendorList">
-                        <i class="ri-user-2-fill"></i> <span>Users</span>
+                        <i class="ri-user-2-fill"></i> <span>Vendor</span>
                     </a>
                     <div class="collapse menu-dropdown" id="vendorList">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('vendor.index') }}" class="nav-link">Vendor</a>
+                                <a href="{{ route('unapprove-vendor') }}" class="nav-link">Unapprove Vendor</a>
                             </li>
+
                             <li class="nav-item">
-                                <a href="index" class="nav-link">Customer</a>
+                                <a href="{{ route('vendor.index') }}" class="nav-link">Vendor List</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#customerList" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="customerList">
+                        <i class="ri-user-2-fill"></i> <span>Customer</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="customerList">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('customer.index') }}" class="nav-link">Customer List</a>
                             </li>
                         </ul>
                     </div>
-                </li> <!-- end Dashboard Menu -->
+                </li>
 
             </ul>
         </div>
