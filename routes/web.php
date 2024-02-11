@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
@@ -29,11 +30,14 @@ Route::post('/update-password/{id}', [App\Http\Controllers\HomeController::class
 Route::resource('vendor', VendorController::class);
 Route::get('unapprove-vendor', [VendorController::class,'unApproveVendor'])->name('unapprove-vendor');
 
+Route::prefix('admin')->group(function(){
+    Route::resource('master-category', MasterCategoryController::class);
+
+    // Route::get('master-category/create', [MasterCategoryController::class, 'create'])->name('master-category.create');
+    // Route::post('master-category/store', [MasterCategoryController::class, 'store'])->name('master-category.store');
+});
+
 Route::resource('customer', UserController::class);
-
-
-
-
 
 Route::get('{any}', [App\Http\Controllers\HomeController::class, 'index'])->name('index');
 

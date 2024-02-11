@@ -23,10 +23,14 @@ return new class extends Migration
             $table->string('image');
             $table->boolean('is_custom');
             $table->foreignId('main_category_id')->nullable();
+
             $table->foreignId('sub_category_id')->nullable();
+            $table->foreignId('master_category_id')->nullable();
+            $table->foreign('master_category_id')->references('id')->on('master_categories')->onDelete('set null');
 
             $table->foreign('main_category_id')->references('id')->on('categories')->onDelete('set null');
             $table->foreign('sub_category_id')->references('id')->on('categories')->onDelete('set null');
+
             $table->timestamps();
             $table->softDeletes();
         });
