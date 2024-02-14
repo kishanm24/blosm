@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AttributeController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MasterCategoryController;
 use App\Http\Controllers\ProductController;
@@ -39,6 +40,8 @@ Route::prefix('admin')->group(function(){
     Route::resource('category', CategoryController::class);
 
     Route::resource('sub-category', SubCategoryController::class);
+
+    Route::resource('attribute', AttributeController::class);
 
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'index']);

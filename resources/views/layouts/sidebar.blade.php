@@ -435,6 +435,30 @@
                     </div>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#ProductList" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="ProductList">
+                        <i class="ri-user-2-fill"></i> <span>Product Master</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="ProductList">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('attribute.index') }}" class="nav-link">Attribute</a>
+                            </li>
+
+                            {{-- <li class="nav-item">
+                                <a href="{{ route('category.index') }}" class="nav-link">Category</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('sub-category.index') }}" class="nav-link">Sub Category</a>
+                            </li> --}}
+
+
+                        </ul>
+                    </div>
+                </li>
+
             </ul>
         </div>
         <!-- Sidebar -->

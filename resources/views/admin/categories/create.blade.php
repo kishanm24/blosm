@@ -2,6 +2,10 @@
 
 @section('title') @lang('translation.create-category') @endsection
 
+@section('css')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+@endsection
+
 @section('content')
 
 <div class="row">
@@ -36,6 +40,23 @@
                             @enderror
                         </div>
 
+                        <div class="col-md-6 mb-4">
+                            <div>
+
+                                <div>
+                                    {!! Form::label('attribute', 'Select Attribute', ['class' => 'form-label']) !!}
+
+                                    {!! Form::select('attribute[]', $attribute, old('attribue'), ['class' => ' js-example-basic-multiple', 'id' => 'vehicle','required','multiple'=>"multiple"]) !!}
+                                </div>
+
+                            </div>
+
+
+                            @error('attribute')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                     </div>
 
 
@@ -52,4 +73,22 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+
+<!--jquery cdn-->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+<!--select2 cdn-->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script src="{{ URL::asset('build/js/pages/select2.init.js') }}"></script>
+
+<script src="{{ URL::asset('build/js/app.js') }}"></script>
+
+<script>
+    // $('.js-example-basic-multiple').select2()
+</script>
+
 @endsection

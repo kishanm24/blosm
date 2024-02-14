@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\CategoryApiController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Http\Request;
@@ -50,6 +52,14 @@ Route::prefix('v1')->group(function () {
 
         Route::get('/logout',[UserController::class,'logout']);
         Route::post('/change-password', [UserController::class, 'changePassword']);
+
+        Route::get('/master-category', [CategoryApiController::class, 'getMasterCategory']);
+        Route::get('/category', [CategoryApiController::class, 'getCategory']);
+        Route::get('/sub-category', [CategoryApiController::class, 'getSubCategory']);
+
+        Route::get('/attribute', [ProductController::class, 'getAttribute']);
+
+
     });
 
 });

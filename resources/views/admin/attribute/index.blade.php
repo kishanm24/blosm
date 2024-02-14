@@ -3,11 +3,11 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Admin @endslot
-@slot('title') Catrgory Listing @endslot
+@slot('title') Attribute Listing @endslot
 @endcomponent
 
 {!! Form::open([
-    'route' => 'category.index',
+    'route' => 'attribute.index',
     'method' => 'get',
     'class' => 'needs-validation',
     'autocomplete' => 'off'
@@ -16,17 +16,17 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex align-items-center border-0">
-                <h5 class="card-title mb-0 flex-grow-1">Catrgory List</h5>
+                <h5 class="card-title mb-0 flex-grow-1">Attribute List</h5>
                 <div class="flex-shrink-0">
-                    <a href="{{ route('category.create') }}" class="btn btn-success">
-                        <i class="ri-add-line align-bottom me-1"></i>Add New Catrgory
+                    <a href="{{ route('attribute.create') }}" class="btn btn-success">
+                        <i class="ri-add-line align-bottom me-1"></i>Add New Attribute
                     </a>
                 </div>
             </div>
             <div class="card-body border border-dashed border-end-0 border-start-0">
                 <div class="row g-2">
                     {!! Form::open([
-                        'route' => 'master-category.index',
+                        'route' => 'attribute.index',
                         'method' => 'get',
                         'class' => 'needs-validation',
                         'autocomplete' => 'off'
@@ -34,7 +34,7 @@
 
                     <div class="col-xl-4 col-md-6">
                         <div class="search-box">
-                            {!! Form::text('search', request()->search, ['class' => 'form-control search', "placeholder"=>"Search by Category Name..."]) !!}
+                            {!! Form::text('search', request()->search, ['class' => 'form-control search', "placeholder"=>"Search by Attribute Name..."]) !!}
                             <i class="ri-search-line search-icon"></i>
                         </div>
                     </div>
@@ -54,25 +54,27 @@
                         <thead class="table-light text-muted">
                             <tr>
                                 <th class="sort" scope="col">Sr. no</th>
-                                <th class="sort" scope="col">Master Catrgory Name</th>
                                 <th class="sort" scope="col">Name</th>
-                                <th class="sort" scope="col">Attribute</th>
+                                <th class="sort" scope="col">Type</th>
+                                <th class="sort" scope="col">Value</th>
                                 <th class="sort" scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody class="list form-check-all">
-                            @foreach ($category as $key => $value)
+                            @foreach ($attribute as $key => $value)
 
                             {{-- {{  dd($value); }} --}}
                                 <tr>
                                     <td scope="col">{{ request('page') !== null ? (request('page') - 1) * 10 + $loop->iteration  :  $loop->iteration}}</td>
-                                    <td>{{ $value->master_category?->name }}</td>
                                     <td>{{ $value->name }}</td>
+                                    <td>{{ $value->type }}</td>
                                     <td>
-                                        @if($value->attributes->toArray())
-                                            {{  implode(", ",array_column($value->attributes->toArray(),'name'))}}
+                                        @if($value->attributeValues->toArray())
+                                            {{  implode(", ",array_column($value->attributeValues->toArray(),'value'))}}
                                         @endif
                                     </td>
+
+
                                     <td>
                                         <div class="hstack gap-2">
                                             <a class="btn btn-sm btn-soft-danger edit-list" href="#">
@@ -94,7 +96,7 @@
                         </div>
                     </div>
                 </div>
-                {!! $category->withQueryString()->links('layouts.paginate') !!}
+                {!! $attribute->withQueryString()->links('layouts.paginate') !!}
             </div>
         </div>
         <!--end card-->

@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use EloquentFilter\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Attribute extends Model
 {
-    use HasFactory;
+    use HasFactory,Filterable;
 
     protected $fillable = ['name', 'type'];
 
@@ -21,5 +22,10 @@ class Attribute extends Model
     public function attributeValues()
     {
         return $this->hasMany(AttributeValue::class);
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class, 'attribute_category');
     }
 }

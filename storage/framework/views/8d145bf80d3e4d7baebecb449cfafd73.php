@@ -159,6 +159,24 @@
                     </div>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#ProductList" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="ProductList">
+                        <i class="ri-user-2-fill"></i> <span>Product Master</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="ProductList">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="<?php echo e(route('attribute.index')); ?>" class="nav-link">Attribute</a>
+                            </li>
+
+                            
+
+
+                        </ul>
+                    </div>
+                </li>
+
             </ul>
         </div>
         <!-- Sidebar -->
