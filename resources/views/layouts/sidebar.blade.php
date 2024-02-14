@@ -411,6 +411,30 @@
                     </div>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#categoryList" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="categoryList">
+                        <i class="ri-user-2-fill"></i> <span>Category Master</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="categoryList">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('master-category.index') }}" class="nav-link">Master Category</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('category.index') }}" class="nav-link">Category</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a href="{{ route('sub-category.index') }}" class="nav-link">Sub Category</a>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </li>
+
             </ul>
         </div>
         <!-- Sidebar -->

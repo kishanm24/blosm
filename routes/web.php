@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\MasterCategoryController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
 use Illuminate\Support\Facades\Route;
@@ -33,6 +36,18 @@ Route::get('unapprove-vendor', [VendorController::class,'unApproveVendor'])->nam
 Route::prefix('admin')->group(function(){
     Route::resource('master-category', MasterCategoryController::class);
 
+    Route::resource('category', CategoryController::class);
+
+    Route::resource('sub-category', SubCategoryController::class);
+
+    Route::prefix('products')->group(function () {
+        Route::get('/', [ProductController::class, 'index']);
+        Route::get('/{id}', [ProductController::class, 'show']);
+        Route::post('/', [ProductController::class, 'store']);
+        Route::put('/{id}', [ProductController::class, 'update']);
+    });
+
+    // Route::resource('products', ProductCo::class);
     // Route::get('master-category/create', [MasterCategoryController::class, 'create'])->name('master-category.create');
     // Route::post('master-category/store', [MasterCategoryController::class, 'store'])->name('master-category.store');
 });
