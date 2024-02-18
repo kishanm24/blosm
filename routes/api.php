@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryApiController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
@@ -58,9 +59,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/sub-category', [CategoryApiController::class, 'getSubCategory']);
 
         Route::get('/attribute', [ProductController::class, 'getAttribute']);
-
-
     });
+
+    Route::post('/files', [FileController::class, 'store']);
+    Route::get('/files/{id}', [FileController::class, 'show']);
+    Route::delete('/files/{id}', [FileController::class, 'destroy']);
+
 
 });
 

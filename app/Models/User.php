@@ -21,7 +21,11 @@ class User extends Authenticatable
         'mobile_number',
         'password','avatar','role','status','description','is_approved',
         'vendor_type',
-        'is_verify'
+        'is_verify',
+        'business_name',
+        'business_logo',
+        'gst_number',
+        'gst_certificate_logo',
     ];
 
     protected $hidden = [

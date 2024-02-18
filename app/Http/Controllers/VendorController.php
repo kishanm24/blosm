@@ -48,23 +48,29 @@ class VendorController extends Controller
 
     public function createVendor(Request $request)
     {
+        // dd($request->all());
         $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
                 'email' => 'required|email|unique:users,email',
-                'password' => 'required|string|min:6', // You can adjust the password validation rules
-                'mobile_number' => 'required|string|max:20',
+                'password' => 'required|string|min:6',
+                'mobile_number' => 'required|unique:users,mobile_number|string|max:20',
                 'description' => 'nullable|string',
                 'logo' => 'nullable|string',
-                'vendor_type' => 'required|string',
+                'vendor_type' => 'required|string|in:vendor,fashion_designer',
+                'business_name' => $request->input('vendor_type') == 'vendor' ? 'required|string' : 'nullable|string',
+                'business_logo' => 'nullable|integer',
+                'gst_number' => $request->input('vendor_type') == 'vendor' ? 'required_if:vendor_type,vendor|string' : 'nullable|string',
+                'gst_certificate_logo' => $request->input('vendor_type') == 'vendor' ? 'required_if:vendor_type,vendor|integer' : 'nullable|integer',
+
                 // 'is_approved' => 'required|boolean',
                 // 'status' => 'required|string',
-                'address' => 'required|array',
-                'address.street' => 'required|string|max:255',
-                'address.city' => 'required|string|max:255',
-                'address.state' => 'required|string|max:255',
-                'address.zip_code' => 'required|string|max:20',
-                'address.country' => 'required|string|max:255',
-                'address.phone' => 'required|string|max:20',
+                // 'address' => 'required|array',
+                // 'address.street' => 'required|string|max:255',
+                // 'address.city' => 'required|string|max:255',
+                // 'address.state' => 'required|string|max:255',
+                // 'address.zip_code' => 'required|string|max:20',
+                // 'address.country' => 'required|string|max:255',
+                // 'address.phone' => 'required|string|max:20',
         ]);
 
         if ($validator->fails()) {
@@ -86,10 +92,14 @@ class VendorController extends Controller
             'is_approved' => false,
             'status' => "Inactive",
             'vendor_type' => $request->input('vendor_type'),
+            'business_name' => $request->input('business_name'), // Added field
+            'business_logo' => $request->input('business_logo'), // Added field
+            'gst_number' => $request->input('gst_number'), // Added field
+            'gst_certificate_logo' => $request->input('gst_certificate_logo'), // Added field
         ]);
 
         // Create an address associated with the vendor
-        $user->address()->create($request->input('address'));
+        // $user->address()->create($request->input('address'));
 
         DB::commit();
         return $this->response(200,[],"Vendor Created Successfully");
