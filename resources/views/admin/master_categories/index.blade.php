@@ -54,7 +54,7 @@
                         <thead class="table-light text-muted">
                             <tr>
                                 <th class="sort" scope="col">Sr. no</th>
-                                <th class="sort" scope="col">Name</th>
+                                <th class="sort" scope="col">Names</th>
                                 <th class="sort" scope="col">Action</th>
                             </tr>
                         </thead>
@@ -65,13 +65,19 @@
                                 <tr>
                                     <td scope="col">{{ request('page') !== null ? (request('page') - 1) * 10 + $loop->iteration  :  $loop->iteration}}</td>
                                     <td>{{ $vendor->name }}</td>
-                                    <td>
-                                        <div class="hstack gap-2">
+                                    <td style="display: flex;">
+                                        <div class="hstack gap-2 m2">
+                                            <a class="btn btn-sm btn-soft-success edit-list" href="{{route('master-category.edit',$vendor->id)}}">
+                                                <i class="ri-edit-2-line align-bottom"></i>
+                                            </a>
+                                        </div>
+                                        <!-- <div class="hstack gap-2 m2">
                                             <a class="btn btn-sm btn-soft-danger edit-list" href="#">
                                                 <i class="ri-close-fill align-bottom"></i>
                                             </a>
-                                        </div>
+                                        </div> -->
                                     </td>
+                                    
                                 </tr>
                             @endforeach
                             <!--end tr-->

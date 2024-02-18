@@ -458,6 +458,19 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link menu-link" href="#GeneralInfo" data-bs-toggle="collapse" role="button"
+                        aria-expanded="false" aria-controls="GeneralInfo">
+                        <i class="ri-user-2-fill"></i> <span>Genral Information</span>
+                    </a>
+                    <div class="collapse menu-dropdown" id="GeneralInfo">
+                        <ul class="nav nav-sm flex-column">
+                            <li class="nav-item">
+                                <a href="{{ route('general-information.index') }}" class="nav-link">Genral Information List</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
 
             </ul>
         </div>
