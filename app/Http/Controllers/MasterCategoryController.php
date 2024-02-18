@@ -38,4 +38,42 @@ class MasterCategoryController extends Controller
             return back()->with('error',"something went wrong");
         }
     }
+
+    public function edit($id)
+    {
+        try {
+
+            $master_category = MasterCategory::findOrFail($id);
+
+
+            return view('admin.master_categories.edit', compact('master_category'));
+          
+            // return view('Frontend.Family.view',compact('vendors'));
+
+
+        } catch (Exception $e) {
+            toastr()->error('Oops! Something went wrong!');
+            return back()->with('error',"something went wrong");
+        }
+
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+            
+            $request->validate([
+                'name' => 'required|string|max:255|unique:master_categories',
+            ]);
+            MasterCategory::where('id',$id)->update([
+            'name' => $request->name,
+        ]);
+      
+        return redirect()->route('master-category.index')->with('success', 'Master category created successfully.');
+
+        } catch (Exception $e) {
+            toastr()->error('Oops! Something went wrong!');
+            return back()->with('error',"something went wrong");
+        }
+    }
 }

@@ -51,4 +51,48 @@ class SubCategoryController extends Controller
 
         return redirect()->route('sub-category.index')->with('success', 'Sub Category created successfully.');
     }
+    public function edit($id)
+    {
+        try {
+
+            $category = Category::where('is_main', true)->pluck('name','id');
+
+            $sub_category = Category::findOrFail($id);
+
+
+            return view('admin.sub_categories.edit',['category' => $category,'sub_category' => $sub_category]);
+
+
+        } catch (Exception $e) {
+            toastr()->error('Oops! Something went wrong!');
+            return back()->with('error',"something went wrong");
+        }
+
+    }
+    public function update(Request $request, $id)
+    {
+        try {
+            
+            $request->validate([
+                'category' => 'required|exists:categories,id',
+                'name' => 'required|string|max:255|unique:categories,name',
+            ]);
+    
+            $slug = Str::slug($request->name);
+
+            Category::where("id",$id)->update([
+                'name' => $request->name,
+                'category_id' => $request->category,
+                'is_main' => false,
+                'slug' => $slug
+            ]);
+    
+            return redirect()->route('sub-category.index')->with('success', 'Sub Category updated successfully.');
+
+        } catch (Exception $e) {
+            toastr()->error('Oops! Something went wrong!');
+            return back()->with('error',"something went wrong");
+        }
+    }
+
 }

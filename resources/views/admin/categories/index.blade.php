@@ -73,12 +73,17 @@
                                             {{  implode(", ",array_column($value->attributes->toArray(),'name'))}}
                                         @endif
                                     </td>
-                                    <td>
-                                        <div class="hstack gap-2">
+                                    <td style="display: flex;">
+                                        <div class="hstack gap-2 m2">
+                                            <a class="btn btn-sm btn-soft-success edit-list" href="{{route('category.edit',$value->id)}}">
+                                                <i class="ri-edit-2-line align-bottom"></i>
+                                            </a>
+                                        </div>
+                                        <!-- <div class="hstack gap-2">
                                             <a class="btn btn-sm btn-soft-danger edit-list" href="#">
                                                 <i class="ri-close-fill align-bottom"></i>
                                             </a>
-                                        </div>
+                                        </div> -->
                                     </td>
                                 </tr>
                             @endforeach

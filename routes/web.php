@@ -7,6 +7,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\GeneralInformationController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 /*
@@ -35,13 +36,15 @@ Route::resource('vendor', VendorController::class);
 Route::get('unapprove-vendor', [VendorController::class,'unApproveVendor'])->name('unapprove-vendor');
 
 Route::prefix('admin')->group(function(){
-    Route::resource('master-category', MasterCategoryController::class);
-
+    Route::resource('master-category', MasterCategoryController::class)->name("*","master-category");
+   
     Route::resource('category', CategoryController::class);
 
     Route::resource('sub-category', SubCategoryController::class);
 
     Route::resource('attribute', AttributeController::class);
+
+    Route::resource('general-information', GeneralInformationController::class)->name("*","general-information");
 
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'index']);
