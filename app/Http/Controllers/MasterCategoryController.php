@@ -9,7 +9,9 @@ class MasterCategoryController extends Controller
 {
     public function create()
     {
-        return view('admin.master_categories.create');
+        $master_category = MasterCategory::find(1);
+
+        return view('admin.master_categories.create',['master_category' =>$master_category]);
     }
 
     public function store(Request $request)
@@ -38,4 +40,13 @@ class MasterCategoryController extends Controller
             return back()->with('error',"something went wrong");
         }
     }
+
+    public function edit(){
+
+    }
+
+    public function update(Request $request,$id){
+        dd('re');
+    }
+
 }
