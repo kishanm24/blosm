@@ -26,6 +26,10 @@ class User extends Authenticatable
         'business_logo',
         'gst_number',
         'gst_certificate_logo',
+        'pan_card',
+        'adhar_card',
+        'pan_card_photo',
+        'adhar_card_photo',
     ];
 
     protected $hidden = [

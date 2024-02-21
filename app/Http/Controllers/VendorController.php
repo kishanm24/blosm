@@ -55,20 +55,22 @@ class VendorController extends Controller
                 'password' => 'required|string|min:6',
                 'mobile_number' => 'required|unique:users,mobile_number|string|max:20',
                 'description' => 'nullable|string',
-                'logo' => 'nullable|string',
+                // 'logo' => 'nullable|string',
                 'vendor_type' => 'required|string|in:vendor,fashion_designer',
                 'business_name' => $request->input('vendor_type') == 'vendor' ? 'required|string' : 'nullable|string',
                 'business_logo' => 'nullable|integer',
                 'gst_number' => $request->input('vendor_type') == 'vendor' ? 'required_if:vendor_type,vendor|string' : 'nullable|string',
                 'gst_certificate_logo' => $request->input('vendor_type') == 'vendor' ? 'required_if:vendor_type,vendor|integer' : 'nullable|integer',
-
+                'pan_card' => "required|string",
                 // 'is_approved' => 'required|boolean',
                 // 'status' => 'required|string',
-                // 'address' => 'required|array',
-                // 'address.street' => 'required|string|max:255',
-                // 'address.city' => 'required|string|max:255',
-                // 'address.state' => 'required|string|max:255',
-                // 'address.zip_code' => 'required|string|max:20',
+
+                'address' => 'required|array',
+                'address.street' => 'required|string|max:255',
+                'address.city' => 'required|string|max:255',
+                'address.state' => 'required|string|max:255',
+                'address.zip_code' => 'required|string|max:20',
+
                 // 'address.country' => 'required|string|max:255',
                 // 'address.phone' => 'required|string|max:20',
         ]);
@@ -86,9 +88,11 @@ class VendorController extends Controller
             'password' => bcrypt($request->input('password')),
             'role' => 'vendor',
             'mobile_number' => $request->input('mobile_number'),
-            'avatar' => $request->input('avatar'),
+            // 'avatar' => $request->input('avatar'),
             'user_name' => $request->input('user_name'),
             'description' => $request->input('description'),
+            'pan_card' => $request->input('pan_card'),
+
             'is_approved' => false,
             'status' => "Inactive",
             'vendor_type' => $request->input('vendor_type'),
@@ -99,7 +103,7 @@ class VendorController extends Controller
         ]);
 
         // Create an address associated with the vendor
-        // $user->address()->create($request->input('address'));
+        $user->address()->create($request->input('address'));
 
         DB::commit();
         return $this->response(200,[],"Vendor Created Successfully");
@@ -157,6 +161,97 @@ class VendorController extends Controller
         } catch (Exception $e) {
             toastr()->error('Oops! Something went wrong!');
             return back()->with('error',"something went wrong");
+        }
+    }
+
+
+    public function editVendor(Request $request, $id)
+    {
+        // Validate the input data
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            // 'email' => 'required|email|unique:users,email,' . $id,
+            // 'password' => 'required|string|min:6',
+            // 'mobile_number' => 'required|unique:users,mobile_number,' . $id . '|string|max:20',
+            'description' => 'nullable|string',
+            'logo' => 'nullable|string',
+            'pan_card' => "required|string",
+            'vendor_type' => 'required|string|in:vendor,fashion_designer',
+            'business_name' => $request->input('vendor_type') == 'vendor' ? 'required|string' : 'nullable|string',
+            'business_logo' => 'nullable|integer',
+            'gst_number' => $request->input('vendor_type') == 'vendor' ? 'required_if:vendor_type,vendor|string' : 'nullable|string',
+            'gst_certificate_logo' => $request->input('vendor_type') == 'vendor' ? 'required_if:vendor_type,vendor|integer' : 'nullable|integer',
+            'address' => 'required|array',
+            'address.street' => 'required|string|max:255',
+            'address.city' => 'required|string|max:255',
+            'address.state' => 'required|string|max:255',
+            'address.zip_code' => 'required|string|max:20',
+        ]);
+
+        // Check if validation fails
+        if ($validator->fails()) {
+            return $this->response(400, ['errors' => $validator->errors()], "Error Validation");
+        }
+
+        // Begin a database transaction
+        DB::beginTransaction();
+
+        try {
+            // Find the existing vendor by ID
+            $user = User::findOrFail($id);
+
+            // Update the user details
+            $user->update([
+                'name' => $request->input('name'),
+                // 'email' => $request->input('email'),
+                // 'password' => bcrypt($request->input('password')),
+                // 'mobile_number' => $request->input('mobile_number'),
+                // 'avatar' => $request->input('avatar'),
+                'user_name' => $request->input('user_name'),
+                'description' => $request->input('description'),
+                'vendor_type' => $request->input('vendor_type'),
+                'business_name' => $request->input('business_name'),
+                'business_logo' => $request->input('business_logo'),
+                'gst_number' => $request->input('gst_number'),
+                'gst_certificate_logo' => $request->input('gst_certificate_logo'),
+                'pan_card' => $request->input('pan_card'),
+            ]);
+
+            // Update the existing address
+            $user->address()->update($request->input('address'));
+
+            // Commit the transaction
+            DB::commit();
+
+            return $this->response(200, [], "Vendor Updated Successfully");
+        } catch (\Exception $e) {
+            // Rollback the transaction in case of any exception
+            DB::rollBack();
+
+            return $this->response(500, [], "Internal Server Error");
+        }
+    }
+
+    public function getVendorData(Request $request)
+    {
+        // Retrieve the authenticated user using the provided token
+        $user = Auth::user();
+
+        if (!$user) {
+            return $this->response(401, [], "Unauthorized");
+        }
+
+        try {
+            // Assuming you have a Vendor model
+            $vendor = User::with('address')->where('id', $user->id)->first();
+
+            if (!$vendor) {
+                return $this->response(404, [], "Vendor not found");
+            }
+
+            return $this->response(200, ['data' => $vendor], "Success");
+        } catch (\Exception $e) {
+            return $this->response(500, [], "Internal Server Error");
         }
     }
 

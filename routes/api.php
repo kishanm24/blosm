@@ -48,6 +48,9 @@ Route::prefix('v1')->group(function () {
 
     Route::group(['middleware' => ['auth:api']], function () {
 
+        Route::put('/vendors/{id}', [VendorController::class, 'editVendor']);
+        Route::get('/vendor', [VendorController::class, 'getVendorData']);
+
         //user profile
         Route::get('my-profile', [UserController::class, 'myProfile']);
 
