@@ -113,6 +113,6 @@ class GeneralInformationController extends Controller
     }
 
     public function general_info(Request $request){
-        return view('admin.general_information.genetal_info');
+        return view('admin.general_information.general_info');
     }
 }
