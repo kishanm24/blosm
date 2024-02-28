@@ -9,7 +9,7 @@
 
 @component('components.breadcrumb')
 @slot('li_1') Admin @endslot
-@slot('title') General Information Listing @endslot
+@slot('title') General Informations  @endslot
 @endcomponent
 
 <div class="row">
