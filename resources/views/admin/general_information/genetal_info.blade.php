@@ -40,7 +40,7 @@
                         </div>
                     </div><!-- end col -->
                     <div class="col-md-10">
-                        <div class="tab-content text-muted mt-4 mt-md-0" id="v-pills-tabContent">
+                        <div class="tab-content mt-4 mt-md-0" id="v-pills-tabContent">
                             <div class="tab-pane fade show active" id="general" role="tabpanel" aria-labelledby="general-tab">
                                 {!! Form::open(['route' => 'general-information.store', 'method' => 'post']) !!}
 
