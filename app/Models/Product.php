@@ -14,7 +14,7 @@ class Product extends Model
 
     public function vendor()
     {
-        return $this->belongsTo(Vendor::class);
+        return $this->belongsTo(User::class);
     }
 
     public function brand()
@@ -37,16 +37,25 @@ class Product extends Model
         return $this->hasMany(Review::class);
     }
 
-     // Relationship with Main Categories
-     public function mainCategories()
-     {
-         return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'main_category_id');
-     }
+    // Relationship with Main Categories
+    public function mainCategories()
+    {
+        return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'main_category_id');
+    }
 
-     // Relationship with Sub Categories
-     public function subCategories()
-     {
-         return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'sub_category_id');
-     }
+    // Relationship with Sub Categories
+    public function subCategories()
+    {
+        return $this->belongsToMany(Category::class, 'category_product', 'product_id', 'sub_category_id');
+    }
 
+    public function details()
+    {
+        return $this->hasMany(ProductDetail::class);
+    }
+
+    public function inventory()
+    {
+        return $this->hasMany(Inventory::class);
+    }
 }

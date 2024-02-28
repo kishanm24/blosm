@@ -37,7 +37,7 @@ Route::get('unapprove-vendor', [VendorController::class,'unApproveVendor'])->nam
 
 Route::prefix('admin')->group(function(){
     Route::resource('master-category', MasterCategoryController::class)->name("*","master-category");
-   
+
     Route::resource('category', CategoryController::class);
 
     Route::resource('sub-category', SubCategoryController::class);
@@ -45,6 +45,10 @@ Route::prefix('admin')->group(function(){
     Route::resource('attribute', AttributeController::class);
 
     Route::resource('general-information', GeneralInformationController::class)->name("*","general-information");
+
+    Route::get('general-info', [GeneralInformationController::class,'general_info'])->name('general-info');
+
+
 
     Route::prefix('products')->group(function () {
         Route::get('/', [ProductController::class, 'index']);
