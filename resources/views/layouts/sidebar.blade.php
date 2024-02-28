@@ -466,7 +466,7 @@
                     <div class="collapse menu-dropdown" id="GeneralInfo">
                         <ul class="nav nav-sm flex-column">
                             <li class="nav-item">
-                                <a href="{{ route('general-information.index') }}" class="nav-link">Genral Information List</a>
+                                <a href="{{ route('general-info') }}" class="nav-link">User</a>
                             </li>
                         </ul>
                     </div>

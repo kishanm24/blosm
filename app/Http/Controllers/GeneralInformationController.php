@@ -69,7 +69,7 @@ class GeneralInformationController extends Controller
 
 
             return view('admin.general_information.edit', compact('general_information'));
-          
+
             // return view('Frontend.Family.view',compact('vendors'));
 
 
@@ -86,11 +86,11 @@ class GeneralInformationController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-              
+
             GeneralInformation::where('id',$id)->update([
             'description' => $request->description,
         ]);
-      
+
         return redirect()->route('general-information.index')->with('success', 'General Information updated successfully.');
 
         } catch (Exception $e) {
@@ -110,5 +110,9 @@ class GeneralInformationController extends Controller
         $general_info->delete();
 
         return redirect()->route('general-information.index')->with('success', 'General Information deleted successfully.');
+    }
+
+    public function general_info(Request $request){
+        return view('admin.general_information.general_info');
     }
 }
