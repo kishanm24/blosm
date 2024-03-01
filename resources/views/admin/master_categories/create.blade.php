@@ -9,9 +9,9 @@
         <div class="card">
             <div class="card-body">
                 <div class="live-preview">
-                    {{-- {!! Form::open(['route' => 'master-category.store', 'method' => 'post']) !!} --}}
+                    {!! Form::open(['route' => 'master-category.store', 'method' => 'post']) !!}
                     {{-- {!! Form::model($master_category, ['route' => route('master-category.update',['master_category' => $master_category->id]),'method' => 'PUT','enctype' => 'multipart/form-data', 'files' => true, 'class' => 'form-design']) !!} --}}
-                    {!! Form::model($master_category, ['route' => ['master-category.update', $master_category->id], 'method' => 'PUT','enctype' => 'multipart/form-data', 'files' => true, 'class' => 'form-design']) !!}
+                    {{-- {!! Form::model($master_category, ['route' => ['master-category.update', $master_category->id], 'method' => 'PUT','enctype' => 'multipart/form-data', 'files' => true, 'class' => 'form-design']) !!} --}}
 
                     <div class="row">
                         <div class="col-md-6 mb-6">
